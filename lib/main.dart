@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'screens/folders_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const CardOrganizerApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class CardOrganizerApp extends StatelessWidget {
+  const CardOrganizerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return MaterialApp(
+      title: "Card Organizer",
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: const FoldersScreen(),
     );
   }
 }
