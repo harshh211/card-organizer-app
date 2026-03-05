@@ -1,59 +1,86 @@
 import 'package:flutter/material.dart';
-import '../repositories/folder_repository.dart';
-import '../models/folder.dart';
 import 'cards_screen.dart';
 
-class FoldersScreen extends StatefulWidget {
-  const FoldersScreen({super.key});
+class FoldersScreen extends StatelessWidget {
+  final List<String> suits = [
+    "Hearts",
+    "Diamonds",
+    "Clubs",
+    "Spades",
+  ];
 
-  @override
-  State<FoldersScreen> createState() => _FoldersScreenState();
-}
-
-class _FoldersScreenState extends State<FoldersScreen> {
-
-  final FolderRepository repository = FolderRepository();
-  List<Folder> folders = [];
-
-  @override
-  void initState() {
-    super.initState();
-    loadFolders();
+  IconData getSuitIcon(String suit) {
+    switch (suit) {
+      case "Hearts":
+        return Icons.favorite;
+      case "Diamonds":
+        return Icons.change_history;
+      case "Clubs":
+        return Icons.filter_vintage;
+      case "Spades":
+        return Icons.eco;
+      default:
+        return Icons.folder;
+    }
   }
 
-  void loadFolders() async {
-    final data = await repository.getFolders();
-
-    setState(() {
-      folders = data;
-    });
+  Color getSuitColor(String suit) {
+    if (suit == "Hearts" || suit == "Diamonds") {
+      return Colors.red;
+    } else {
+      return Colors.black;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Card Folders"),
+        title: Text("Card Organizer"),
       ),
-      body: ListView.builder(
-        itemCount: folders.length,
+      body: GridView.builder(
+        padding: EdgeInsets.all(16),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+        ),
+        itemCount: suits.length,
         itemBuilder: (context, index) {
+          final suit = suits[index];
 
-          final folder = folders[index];
-
-          return ListTile(
-            title: Text(folder.folderName),
-
-            trailing: const Icon(Icons.arrow_forward),
-
+          return InkWell(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CardsScreen(folder: folder),
+                  builder: (context) => CardsScreen(suit: suit),
                 ),
               );
             },
+            child: Card(
+              elevation: 4,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      getSuitIcon(suit),
+                      size: 60,
+                      color: getSuitColor(suit),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      suit,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           );
         },
       ),

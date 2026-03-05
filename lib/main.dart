@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'screens/folders_screen.dart';
 
 void main() {
-  runApp(const CardOrganizerApp());
+  runApp(CardOrganizerApp());
 }
 
 class CardOrganizerApp extends StatelessWidget {
-  const CardOrganizerApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Card Organizer",
+      title: 'Card Organizer',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
-      home: const FoldersScreen(),
+      home: FoldersScreen(),
     );
   }
 }
